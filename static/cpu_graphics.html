@@ -25,13 +25,13 @@ var chart = new Chart(ctx, {
   data: {
     datasets: [{
       data: [],
-      label: 'Utilizacion CPU',
+      label: '% consumo CPU:',
       borderColor: 'rgb(255, 0, 0)',
       lineTension: 0,
     },
     {
       data: [],
-      label: '% consumo de CPU',
+      label: 'Utilizacion CPU',
       borderColor: 'rgb(0, 0, 255)',
       lineTension: 0,
     }]
@@ -48,13 +48,15 @@ var chart = new Chart(ctx, {
                         xhr.onload = function () {
                             if (xhr.readyState === 4 && xhr.status === 200) {
 
-                              chart.data.datasets[0].data.push({
+                              /*chart.data.datasets[0].data.push({
                                 x: Date.now(),
                                 y: JSON.parse(xhr.responseText).x
-                              });
+                              });*/
+                              chart.data.datasets[0].label='% utilizacion CPU: '+JSON.parse(xhr.responseText).y+'%';
+
                               chart.data.datasets[1].data.push({
                                 x: Date.now(),
-                                y: JSON.parse(xhr.responseText).y
+                                y: JSON.parse(xhr.responseText).x
                               });
 
                                 chart.update({
