@@ -7,6 +7,7 @@ import (
   "time"
   "math/rand"
   "github.com/thedevsaddam/renderer"
+  linuxproc "github.com/c9s/goprocinfo/linux"
   helpers "../helpers"
   repos "../repos"
 )
@@ -47,6 +48,40 @@ type Values struct{
   X string`json:"x"`
   Y int `json:"y"`
 }
+
+//======= RAM DATA
+
+type RamStruct struct{
+  X int `json:"x"`
+  Y int `json:"y"`
+  Z int `json:"z"`
+}
+
+func RamData(response http.ResponseWriter, request *http.Request){
+  memory, _ := linuxproc.ReadMemInfo("/proc/meminfo")
+  total:=memory.MemTotal
+  consumida:= memory.MemTotal - memory.MemFree
+  var per_consumo float64
+  per_consumo = (float64(consumida)/float64(total))*100
+  ram_data := RamStruct{X:int(total),Y:int(consumida),Z:int(per_consumo)}
+  byteArray, _ := json.Marshal(ram_data)
+  fmt.Fprintf(response,string(byteArray))
+}
+
+//======= CPU DATA
+
+type CpuStruct struct{
+  X int `json:"x"`
+  Y int `json:"y"`
+}
+
+func CpuData(response http.ResponseWriter, request *http.Request){
+  cpu_data := RamStruct{X:rand.Intn(100),Y:rand.Intn(100)}
+  byteArray, _ := json.Marshal(cpu_data)
+  fmt.Fprintf(response,string(byteArray))
+}
+
+
 
 func AdminHandler(response http.ResponseWriter, request *http.Request){
 

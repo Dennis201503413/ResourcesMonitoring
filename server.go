@@ -31,6 +31,8 @@ func main() {
 
 	//====== POST METHODS
 	router.HandleFunc("/login", common.LoginHandler).Methods("POST")
+	router.HandleFunc("/ram_data",common.RamData).Methods("POST")
+	router.HandleFunc("/cpu_data",common.CpuData).Methods("POST")
 	router.HandleFunc("/data",common.AdminHandler).Methods("POST")
 
 	//====== CONFIG

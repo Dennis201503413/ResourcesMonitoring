@@ -50,16 +50,22 @@ var chart = new Chart(ctx, {
                     onRefresh: function(chart) {
                         // request data so that it can be received in a callback function
                         var xhr = new XMLHttpRequest();
-                        xhr.open('POST', '/data');
+                        xhr.open('POST', '/ram_data');
                         xhr.onload = function () {
                             if (xhr.readyState === 4 && xhr.status === 200) {
 
-                                var data = {
+                                chart.data.datasets[0].data.push({
+                                  x: Date.now(),
+                                  y: JSON.parse(xhr.responseText).x
+                                });
+                                chart.data.datasets[1].data.push({
                                   x: Date.now(),
                                   y: JSON.parse(xhr.responseText).y
-                                }
-
-                                chart.data.datasets[0].data.push(data);
+                                });
+                                chart.data.datasets[2].data.push({
+                                  x: Date.now(),
+                                  y: JSON.parse(xhr.responseText).z
+                                });
 
                                 chart.update({
                                     preservation: true
