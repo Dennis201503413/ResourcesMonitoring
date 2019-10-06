@@ -59,8 +59,8 @@ type RamStruct struct{
 
 func RamData(response http.ResponseWriter, request *http.Request){
   memory, _ := linuxproc.ReadMemInfo("/proc/meminfo")
-  total:=memory.MemTotal
-  consumida:= memory.MemTotal - memory.MemFree
+  total:=memory.MemTotal/1000
+  consumida:= (memory.MemTotal - memory.MemFree)/1000
   var per_consumo float64
   per_consumo = (float64(consumida)/float64(total))*100
   ram_data := RamStruct{X:int(total),Y:int(consumida),Z:int(per_consumo)}
