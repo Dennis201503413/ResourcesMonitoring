@@ -31,13 +31,13 @@ var chart = new Chart(ctx, {
     },
     {
       data: [],
-      label: '% consumo de RAM',
+      label: '% consumo RAM',
       borderColor: 'rgb(0, 255, 0)',
       lineTension: 0,
     },
     {
       data: [],
-      label: 'Total RAM consumida',
+      label: 'Total RAM consumida (MB)',
       borderColor: 'rgb(0, 0, 255)',
       lineTension: 0,
     }]
@@ -53,15 +53,10 @@ var chart = new Chart(ctx, {
                         xhr.open('POST', '/ram_data');
                         xhr.onload = function () {
                             if (xhr.readyState === 4 && xhr.status === 200) {
+                              
+                                chart.data.datasets[0].label='Total RAM:'+JSON.parse(xhr.responseText).x+'(MB)';
+                                chart.data.datasets[1].label='% consumo RAM: '+JSON.parse(xhr.responseText).z+'%';
 
-                                /*chart.data.datasets[0].data.push({
-                                  x: Date.now(),
-                                  y: JSON.parse(xhr.responseText).x
-                                });
-                                chart.data.datasets[1].data.push({
-                                  x: Date.now(),
-                                  y: JSON.parse(xhr.responseText).z
-                                });*/
                                 chart.data.datasets[2].data.push({
                                   x: Date.now(),
                                   y: JSON.parse(xhr.responseText).y
