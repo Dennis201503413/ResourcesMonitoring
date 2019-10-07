@@ -9,7 +9,7 @@ import (
 
 const (
     STATIC_DIR = "/static/"
-    PORT       = "8080"
+    PORT       = "3001"
 )
 
 var router = NewRouter()
