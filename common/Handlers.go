@@ -1,6 +1,7 @@
 package handlers
 
 import (
+  "html/template"
   "strconv"
   "io/ioutil"
   "strings"
@@ -10,7 +11,10 @@ import (
   "time"
   "math/rand"
   "github.com/thedevsaddam/renderer"
+  "github.com/shirou/gopsutil/host"
+  "github.com/shirou/gopsutil/load"
   linuxproc "github.com/c9s/goprocinfo/linux"
+  ps "github.com/mitchellh/go-ps"
   helpers "../helpers"
   repos "../repos"
 )
@@ -50,6 +54,46 @@ func LoginPageHandler(response http.ResponseWriter, request *http.Request){
 type Values struct{
   X string`json:"x"`
   Y int `json:"y"`
+}
+
+//======= HOME DATA
+
+type Process struct{
+  Pid int
+  Name string
+}
+
+type HomeData struct{
+  Procesos string
+  Ejecucion string
+  Suspendido string
+  Detenido string
+  Zombie string
+  Processes []Process
+}
+
+
+func HomePageHandler(response http.ResponseWriter, request *http.Request){
+  processList, _ := ps.Processes()
+  tmpl, _ := template.ParseFiles("static/admin_home.html")
+  Proce := []Process{}
+  for x:= range processList{
+    var process ps.Process
+    process = processList[x]
+    Proce = append(Proce,Process{Pid: process.Pid(), Name: process.Executable()})
+  }
+  infoStat, _ := host.Info()
+  miscStat, _ := load.Misc()
+  data:=HomeData{
+    Procesos:infoStat.Procs,
+    Ejecucion:miscStat.ProcsRunning,
+    Suspendido:"prueba3",
+    Detenido:"prueba4",
+    Zombie:"prueba5",
+    Processes: Proce}
+  tmpl.Execute(response,data)
+  //var body, _= helpers.LoadFile("static/index.html")
+  //fmt.Fprintf(response, body)
 }
 
 //======= RAM DATA

@@ -25,7 +25,7 @@ func main() {
 
 	//====== GET METHODS
 	router.HandleFunc("/", common.LoginPageHandler)
-	router.HandleFunc("/adminPage",common.AdminPageHandler)
+	router.HandleFunc("/adminPage",common.HomePageHandler)
 	router.HandleFunc("/cpu_graph", common.CpuProcessHandler)
 	router.HandleFunc("/ram_graph", common.RamProcessHandler)
 
