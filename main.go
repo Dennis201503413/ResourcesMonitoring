@@ -38,5 +38,5 @@ func main() {
 	//====== CONFIG
 	http.Handle("/",router)
 	log.Println("Server running on http://localhost:8080")
-  log.Fatal(http.ListenAndServe(":8080", nil))
+  log.Fatal(http.ListenAndServe(":3001", nil))
 }
