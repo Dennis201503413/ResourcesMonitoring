@@ -192,14 +192,22 @@
 	<thead>
 		<tr>
 			<th><h1>Pid</h1></th>
+      <th><h1>Usuario</h1></th>
+      <th><h1>Estado</h1></th>
+      <th><h1>%RAM</h1></th>
 			<th><h1>Nombre</h1></th>
+      <th><h1>Kill</h1></th>
 		</tr>
 	</thead>
 	<tbody>
     {{range .Processes}}
     <tr>
       <td>{{.Pid}}</td>
+      <td>{{.Usuario}}</td>
+      <td>{{.Estado}}</td>
+      <td>{{.Pram}}%</td>
       <td>{{.Name}}</td>
+      <td><button type="button">x</button></td>
     </tr>
     {{end}}
 	</tbody>

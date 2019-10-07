@@ -60,15 +60,18 @@ type Values struct{
 
 type Process struct{
   Pid int
+  Usuario string
+  Estado string
+  Pram int
   Name string
 }
 
 type HomeData struct{
-  Procesos string
-  Ejecucion string
-  Suspendido string
-  Detenido string
-  Zombie string
+  Procesos uint64
+  Ejecucion int
+  Suspendido int
+  Detenido int
+  Zombie int
   Processes []Process
 }
 
@@ -80,16 +83,16 @@ func HomePageHandler(response http.ResponseWriter, request *http.Request){
   for x:= range processList{
     var process ps.Process
     process = processList[x]
-    Proce = append(Proce,Process{Pid: process.Pid(), Name: process.Executable()})
+    Proce = append(Proce,Process{Pid: process.Pid(),Usuario:"dennis-pc",Estado:"activo",Pram:rand.Intn(100), Name: process.Executable()})
   }
   infoStat, _ := host.Info()
   miscStat, _ := load.Misc()
   data:=HomeData{
     Procesos:infoStat.Procs,
     Ejecucion:miscStat.ProcsRunning,
-    Suspendido:"prueba3",
-    Detenido:"prueba4",
-    Zombie:"prueba5",
+    Suspendido:rand.Intn(int(infoStat.Procs)),
+    Detenido:rand.Intn(int(infoStat.Procs)),
+    Zombie:rand.Intn(int(infoStat.Procs)),
     Processes: Proce}
   tmpl.Execute(response,data)
   //var body, _= helpers.LoadFile("static/index.html")
